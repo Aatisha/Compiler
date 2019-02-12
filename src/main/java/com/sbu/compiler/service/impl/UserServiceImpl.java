@@ -1,0 +1,61 @@
+package com.sbu.compiler.service.impl;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sbu.compiler.domain.Student;
+import com.sbu.compiler.domain.User;
+import com.sbu.compiler.dto.StudentDto;
+import com.sbu.compiler.dto.UserDto;
+import com.sbu.compiler.repository.StudentRepository;
+import com.sbu.compiler.repository.UserRepository;
+import com.sbu.compiler.service.UserService;
+@Service
+public class UserServiceImpl implements UserService{
+	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	StudentRepository studentRepository;
+	
+	
+
+	@Override
+	public List<UserDto> getAllUsers() {
+		
+		return (StreamSupport.stream(userRepository.findAll().spliterator(),false).map(this::transformUserToDto).collect(Collectors.toList()));
+	}
+	
+	private UserDto transformUserToDto(User user)
+	{
+		UserDto userDto = new UserDto();
+		userDto.setUser_id(user.getUser_id());
+		userDto.setName(user.getName());
+		userDto.setEmail(user.getEmail());
+		userDto.setProfile(user.getProfile());
+		userDto.setDept(user.getDept());
+		
+		return userDto;
+		
+	}
+
+	@Override
+	public List<StudentDto> getAllStudents() {
+		return (StreamSupport.stream(studentRepository.findAll().spliterator(),false).map(this::transformStudentToDto).collect(Collectors.toList()));
+	}
+	
+	private StudentDto transformStudentToDto(Student student)
+	{
+		StudentDto studentDto = new StudentDto();
+		studentDto.setSection(student.getSection());
+		studentDto.setYear(student.getYear());
+		studentDto.setUser(transformUserToDto(student.getUser()));
+		return studentDto;
+		
+	}
+}
