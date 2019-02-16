@@ -2,17 +2,17 @@ package com.sbu.compiler.dto;
 
 public class UserDto {
 
-	private String user_id;
+	private String userId;
 	private String name;
 	private String email;
 	private String dept;
 	private String password;
 	private String profile;
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getName() {
 		return name;

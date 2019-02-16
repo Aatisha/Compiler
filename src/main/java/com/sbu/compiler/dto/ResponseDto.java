@@ -1,34 +1,15 @@
-package com.sbu.compiler.domain;
+package com.sbu.compiler.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class ResponseDto {
 
-@Entity
-@Table(name="user")
-public class User {
-	
-	@Id
 	private String userId;
 	private String name;
 	private String email;
 	private String dept;
-	private String password;
 	private String profile;
-	
-
-	public User() {}
-	
-	public User(String userId, String name, String email, String dept, String password, String profile) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.email = email;
-		this.dept = dept;
-		this.password = password;
-		this.profile = profile;
-	}
+	private String year;
+	private String section;
+	private String responseMessage;
 	public String getUserId() {
 		return userId;
 	}
@@ -53,19 +34,31 @@ public class User {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	public String getProfile() {
 		return profile;
 	}
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getSection() {
+		return section;
+	}
+	public void setSection(String section) {
+		this.section = section;
+	}
+	public String getResponseMessage() {
+		return responseMessage;
+	}
+	public void setResponseMessage(String responseMessage) {
+		this.responseMessage = responseMessage;
+	}
 	
 	
-
+	
 }

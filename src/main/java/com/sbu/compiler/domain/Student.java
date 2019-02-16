@@ -1,5 +1,6 @@
 package com.sbu.compiler.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -11,20 +12,29 @@ import javax.persistence.Table;
 public class Student {
 	
 	@Id
-	private String user_id;
+	@Column(name="userId")
+	private String userId;
 	private String year;
 	private String section;
 	
 	@OneToOne
-	@JoinColumn(name="user_id", referencedColumnName="user_id")
+	@JoinColumn(name="userId", referencedColumnName="userId")
 	private User user;
 	
+	public Student() {}
 	
-	public String getUser_id() {
-		return user_id;
+	public Student(String userId, String year, String section, User user) {
+		super();
+		this.userId = userId;
+		this.year = year;
+		this.section = section;
+		this.user = user;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getYear() {
 		return year;

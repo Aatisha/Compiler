@@ -5,10 +5,13 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sbu.compiler.domain.Student;
 import com.sbu.compiler.domain.User;
+import com.sbu.compiler.dto.ResponseDto;
 import com.sbu.compiler.dto.StudentDto;
 import com.sbu.compiler.dto.UserDto;
 import com.sbu.compiler.repository.StudentRepository;
@@ -34,7 +37,7 @@ public class UserServiceImpl implements UserService{
 	private UserDto transformUserToDto(User user)
 	{
 		UserDto userDto = new UserDto();
-		userDto.setUser_id(user.getUser_id());
+		userDto.setUserId(user.getUserId());
 		userDto.setName(user.getName());
 		userDto.setEmail(user.getEmail());
 		userDto.setProfile(user.getProfile());
@@ -57,5 +60,89 @@ public class UserServiceImpl implements UserService{
 		studentDto.setUser(transformUserToDto(student.getUser()));
 		return studentDto;
 		
+	}
+
+	@Override
+	public ResponseDto findUserById(String user_id) {
+		// TODO Auto-generated method stub
+		User user = userRepository.findByUserId(user_id);
+		ResponseDto rDto = new ResponseDto();
+		if(user!=null) {
+			if(user.getProfile().equals("Student"))
+			{
+				rDto = transformToResponseDto(user,studentRepository.findByUserId(user.getUserId()));
+				
+			}
+			else
+			{
+				rDto = transformToResponseDto(user, null);
+			}
+			rDto.setResponseMessage("Success.");
+		}
+		else
+		{
+			rDto.setResponseMessage("User Not Found.");
+		}
+		return rDto;
+	}
+
+	@Override
+	public ResponseEntity<ResponseDto> addStudent(Student student) {
+		// TODO Auto-generated method stub
+		userRepository.save(student.getUser());
+		studentRepository.save(student);
+		ResponseDto r = new ResponseDto();
+		r.setResponseMessage("Registered Successfully.");
+		return new ResponseEntity<>(r, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<ResponseDto> addUser(User user) {
+		// TODO Auto-generated method stub
+		userRepository.save(user);
+		ResponseDto r = new ResponseDto();
+		r.setResponseMessage("Registered Successfully.");
+		return new ResponseEntity<>(r, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<ResponseDto> loginUser(UserDto userDto) {
+		// TODO Auto-generated method stub
+		User user = userRepository.findByUserIdAndPassword(userDto.getUserId(),userDto.getPassword());
+		ResponseDto rDto = new ResponseDto();
+		if(user!=null)
+		{
+			if(user.getProfile().equals("Student"))
+			{
+				rDto = transformToResponseDto(user,studentRepository.findByUserId(user.getUserId()));
+				
+			}
+			else
+			{
+				rDto = transformToResponseDto(user, null);
+			}
+			rDto.setResponseMessage("Login Successfull!");
+			return new ResponseEntity<>(rDto,HttpStatus.OK);
+		}
+		else
+		{
+			rDto.setResponseMessage("Login Failed. Username or Password Incorrect. Try Again.");
+			return new ResponseEntity<>(rDto,HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	private ResponseDto transformToResponseDto(User user, Student student) {
+		// TODO Auto-generated method stub
+		ResponseDto rDto = new ResponseDto();
+		rDto.setUserId(user.getUserId());
+		rDto.setName(user.getName());
+		rDto.setEmail(user.getEmail());
+		rDto.setDept(user.getDept());
+		rDto.setProfile(user.getProfile());
+		if(student!=null) {
+		rDto.setSection(student.getSection());
+		rDto.setYear(student.getYear());
+		}
+		return rDto;
 	}
 }
