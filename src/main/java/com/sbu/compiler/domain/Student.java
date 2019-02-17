@@ -1,7 +1,8 @@
 package com.sbu.compiler.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -12,30 +13,34 @@ import javax.persistence.Table;
 public class Student {
 	
 	@Id
-	@Column(name="userId")
-	private String userId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int studentId;
+	
 	private String year;
 	private String section;
 	
 	@OneToOne
-	@JoinColumn(name="userId", referencedColumnName="userId")
+	@JoinColumn(name="userId")
 	private User user;
 	
 	public Student() {}
 	
-	public Student(String userId, String year, String section, User user) {
+	public Student( String year, String section, User user) {
 		super();
-		this.userId = userId;
 		this.year = year;
 		this.section = section;
 		this.user = user;
 	}
-	public String getUserId() {
-		return userId;
+	
+	
+public int getStudentId() {
+		return studentId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+
+	public void setStudentId(int studentId) {
+		this.studentId = studentId;
 	}
+
 	public String getYear() {
 		return year;
 	}

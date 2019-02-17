@@ -38,7 +38,7 @@ public class UserController {
 	@RequestMapping(value = "/signup/student", method = RequestMethod.POST)
 	public ResponseEntity<ResponseDto> addStudent(@RequestBody Student student) {
  
-		ResponseDto r = userService.findUserById(student.getUserId());
+		ResponseDto r = userService.findUserById(student.getUser().getUserId());
 		if(r.getResponseMessage().equals("Success."))
 		{
 			r = new ResponseDto();

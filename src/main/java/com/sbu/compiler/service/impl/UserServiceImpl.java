@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService{
 		if(user!=null) {
 			if(user.getProfile().equals("Student"))
 			{
-				rDto = transformToResponseDto(user,studentRepository.findByUserId(user.getUserId()));
+				rDto = transformToResponseDto(user,studentRepository.findWithUserId(user.getUserId()));
 				
 			}
 			else
@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService{
 		{
 			if(user.getProfile().equals("Student"))
 			{
-				rDto = transformToResponseDto(user,studentRepository.findByUserId(user.getUserId()));
+				rDto = transformToResponseDto(user,studentRepository.findWithUserId(user.getUserId()));
 				
 			}
 			else
