@@ -1,8 +1,12 @@
 package com.sbu.compiler.domain;
 
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,11 +20,14 @@ public class User {
 	private String dept;
 	private String password;
 	private String profile;
-	
 
+	@OneToMany(mappedBy="user")
+    private List<Lab> lab;
+	
 	public User() {}
 	
-	public User(String userId, String name, String email, String dept, String password, String profile) {
+
+	public User(String userId, String name, String email, String dept, String password, String profile, List<Lab> lab) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -28,7 +35,10 @@ public class User {
 		this.dept = dept;
 		this.password = password;
 		this.profile = profile;
+		this.lab = lab;
 	}
+
+
 	public String getUserId() {
 		return userId;
 	}
@@ -65,6 +75,24 @@ public class User {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
+
+	public List<Lab> getLab() {
+		return lab;
+	}
+
+	public void setLab(List<Lab> lab) {
+		this.lab = lab;
+	}
+	//INSERT INTO `lab` (`lab_id`, `lab_name`, `section`, `year`, `user_id`) VALUES (NULL, 'C Prog', 'A', '2015', '11'), (NULL, 'C# Prog', 'C', '2017', '11');
+	//test
+
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", name=" + name + ", email=" + email + ", dept=" + dept + ", password="
+				+ password + ", profile=" + profile + ", lab=" + lab + "]";
+	}
+	
 	
 	
 

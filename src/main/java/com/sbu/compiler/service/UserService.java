@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
+import com.sbu.compiler.domain.Lab;
 import com.sbu.compiler.domain.Student;
 import com.sbu.compiler.domain.User;
 import com.sbu.compiler.dto.ResponseDto;
@@ -18,5 +19,7 @@ public interface UserService {
 	public ResponseEntity<ResponseDto> addStudent(Student student);
 	public ResponseEntity<ResponseDto> addUser(User user);
 	public ResponseEntity<ResponseDto> loginUser(UserDto userDto);
+	//public List<Lab> fetchLabsByUserId(String userId);
+	public List<UserDto> fetchTeacherByDept(String deptId);
 
 }

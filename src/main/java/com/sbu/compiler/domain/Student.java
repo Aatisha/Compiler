@@ -1,5 +1,6 @@
 package com.sbu.compiler.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,7 @@ public class Student {
 	
 	public Student( String year, String section, User user) {
 		super();
+//		this.userId = userId;
 		this.year = year;
 		this.section = section;
 		this.user = user;
@@ -41,6 +43,12 @@ public int getStudentId() {
 		this.studentId = studentId;
 	}
 
+	//	public String getUserId() {
+//		return userId;
+//	}
+//	public void setUserId(String userId) {
+//		this.userId = userId;
+//	}
 	public String getYear() {
 		return year;
 	}

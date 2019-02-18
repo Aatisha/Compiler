@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.sbu.compiler.domain.Lab;
 import com.sbu.compiler.domain.Student;
 import com.sbu.compiler.domain.User;
 import com.sbu.compiler.dto.ResponseDto;
@@ -89,5 +91,18 @@ public class UserController {
 	{
 		return userService.getAllStudents();
 	}
+	
+	//list of labs associated with user NO USE
+//	@GetMapping(value="/lab/{userId}")
+//	public ResponseEntity<List<Lab>> fetchLabsByUserId(@PathVariable String userId)
+//	{
+//		return new ResponseEntity<>(userService.fetchLabsByUserId(userId), HttpStatus.OK);
+//	}
+	@GetMapping(value="/dept/{dept}")
+	public ResponseEntity<List<UserDto>> fetchTeacherByDept(@PathVariable String dept)
+	{
+		return new ResponseEntity<>(userService.fetchTeacherByDept(dept), HttpStatus.OK);
+	}
+	
 
 }
