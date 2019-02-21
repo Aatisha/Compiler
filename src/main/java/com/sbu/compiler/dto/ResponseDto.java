@@ -11,8 +11,10 @@ public class ResponseDto {
 	private String profile;
 	private String year;
 	private String section;
+	private String password;
 	private String responseMessage;
 	private List<LabDto> lab;
+	private List<QuestionDto> question;
 	public String getUserId() {
 		return userId;
 	}
@@ -67,6 +69,19 @@ public class ResponseDto {
 	public void setLab(List<LabDto> lab) {
 		this.lab = lab;
 	}
+	public List<QuestionDto> getQuestion() {
+		return question;
+	}
+	public void setQuestion(List<QuestionDto> question) {
+		this.question = question;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	
 	
 	

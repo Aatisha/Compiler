@@ -94,13 +94,35 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public ResponseEntity<ResponseDto> addStudent(Student student) {
+	public ResponseEntity<ResponseDto> addStudent(ResponseDto student) {
 		// TODO Auto-generated method stub
-		userRepository.save(student.getUser());
-		studentRepository.save(student);
+		Student s = transformResponseDtoToStudent(student);
+		userRepository.save(s.getUser());
+		studentRepository.save(s);
 		ResponseDto r = new ResponseDto();
 		r.setResponseMessage("Registered Successfully.");
 		return new ResponseEntity<>(r, HttpStatus.OK);
+	}
+
+	private Student transformResponseDtoToStudent(ResponseDto student) {
+		// TODO Auto-generated method stub
+		Student s = new Student();
+		s.setYear(student.getYear());
+		s.setSection(student.getSection());
+		s.setUser(transformResponseDtoToUser(student));
+		return s;
+	}
+
+	private User transformResponseDtoToUser(ResponseDto student) {
+		// TODO Auto-generated method stub
+		User u = new User();
+		u.setUserId(student.getUserId());
+		u.setName(student.getName());
+		u.setEmail(student.getEmail());
+		u.setDept(student.getDept());
+		u.setPassword(student.getPassword());
+		u.setProfile(student.getProfile());
+		return u;
 	}
 
 	@Override
@@ -169,9 +191,10 @@ public class UserServiceImpl implements UserService{
 		labDto.setLabId(lab.getLabId());
 		labDto.setLabName(lab.getLabName());
 		labDto.setYear(lab.getYear());
-		labDto.setUserId(lab.getUser().getUserId());
+		labDto.setUserId(lab.getUser().getName());
 		labDto.setSection(lab.getSection());
-		labDto.setAssignee(lab.getAssignee());
+		User u = userRepository.findByUserId(lab.getAssignee());
+		labDto.setAssignee(u.getName());
 		
 		return labDto;
 	}

@@ -13,5 +13,6 @@ public interface LabRepository extends JpaRepository<Lab,Long> {
 //	List<Lab> findByUserId(String user_id);
 	List<Lab> findByAssignee(String user_id);
 	List<Lab> findByYearAndSection(String year, String section);
+	Lab findByLabId(int labId);
 	
 }

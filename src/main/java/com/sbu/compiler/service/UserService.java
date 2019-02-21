@@ -16,7 +16,7 @@ public interface UserService {
 	public List<UserDto> getAllUsers();
 	public List<StudentDto> getAllStudents();
 	public ResponseDto findUserById(String user_id);
-	public ResponseEntity<ResponseDto> addStudent(Student student);
+	public ResponseEntity<ResponseDto> addStudent(ResponseDto student);
 	public ResponseEntity<ResponseDto> addUser(User user);
 	public ResponseEntity<ResponseDto> loginUser(UserDto userDto);
 	//public List<Lab> fetchLabsByUserId(String userId);

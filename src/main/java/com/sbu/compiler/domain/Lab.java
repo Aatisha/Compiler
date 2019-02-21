@@ -1,11 +1,14 @@
  package com.sbu.compiler.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -28,11 +31,10 @@ public class Lab {
 	@JoinColumn(name="userId")
 	private User user;
 	
-	
+	@OneToMany(mappedBy="lab")
+	private List<Question> question;
 	
 	public Lab() {}
-	
-	
 
 	public Lab(String labName, String year, String section, String assignee, User user) {
 		super();
@@ -93,6 +95,16 @@ public class Lab {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	
+	
+	public List<Question> getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(List<Question> question) {
+		this.question = question;
 	}
 
 	@Override
