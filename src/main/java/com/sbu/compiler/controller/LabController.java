@@ -1,7 +1,5 @@
 package com.sbu.compiler.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sbu.compiler.dto.LabDto;
 import com.sbu.compiler.dto.QuestionDto;
 import com.sbu.compiler.dto.ResponseDto;
-import com.sbu.compiler.dto.UserDto;
 import com.sbu.compiler.service.LabService;
 
 @CrossOrigin

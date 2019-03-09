@@ -46,7 +46,7 @@ public class LabServiceImpl implements LabService {
 		Lab lab = new Lab();
 		lab.setLabId(question.getLabId());
 		
-		Question q = new Question(question.getQuestion(),question.getSampleCase(),question.getTestCase(),question.getProgrammingLang(),lab);
+		Question q = new Question(question.getQuestionHead(),question.getQuestion(),question.getSampleCase(),question.getTestCase(),question.getProgrammingLang(),lab);
 		
 		questionRepository.save(q);
 		ResponseDto r = new ResponseDto();
@@ -73,6 +73,7 @@ public class LabServiceImpl implements LabService {
 	private QuestionDto transformQuestionToDto(Question q) {
 		// TODO Auto-generated method stub
 		QuestionDto qDto = new QuestionDto();
+		qDto.setQuestionHead(q.getQuestionHead());
 		qDto.setQuestion(q.getQuestion());
 		qDto.setQuestionId(q.getQuestionId());
 		qDto.setProgrammingLang(q.getProgrammingLang());

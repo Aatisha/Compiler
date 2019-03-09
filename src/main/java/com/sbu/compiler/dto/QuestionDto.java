@@ -6,6 +6,8 @@ public class QuestionDto {
 	
 	private String question;
 	
+	private String questionHead;
+	
 	private String programmingLang;
 	
 	private String sampleCase;
@@ -20,6 +22,16 @@ public class QuestionDto {
 
 	public void setQuestionId(int questionId) {
 		this.questionId = questionId;
+	}
+	
+	
+
+	public String getQuestionHead() {
+		return questionHead;
+	}
+
+	public void setQuestionHead(String questionHead) {
+		this.questionHead = questionHead;
 	}
 
 	public String getQuestion() {

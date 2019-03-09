@@ -16,6 +16,8 @@ public class Question {
 	@GeneratedValue( strategy= GenerationType.IDENTITY )
 	private int questionId;
 	
+	private String questionHead;
+	
 	private String question;
 	
 	private String sampleCase;
@@ -30,23 +32,28 @@ public class Question {
 
 	public Question() {}
 
+	
+
 	/**
-	 * @param questionId
+	 * @param questionHead
 	 * @param question
 	 * @param sampleCase
 	 * @param testCase
 	 * @param programmingLang
 	 * @param lab
 	 */
-	public Question(String question, String sampleCase, String testCase, String programmingLang,
+	public Question(String questionHead, String question, String sampleCase, String testCase, String programmingLang,
 			Lab lab) {
 		super();
+		this.questionHead = questionHead;
 		this.question = question;
 		this.sampleCase = sampleCase;
 		this.testCase = testCase;
 		this.programmingLang = programmingLang;
 		this.lab = lab;
 	}
+
+
 
 	public int getQuestionId() {
 		return questionId;
@@ -55,6 +62,20 @@ public class Question {
 	public void setQuestionId(int questionId) {
 		this.questionId = questionId;
 	}
+	
+	
+
+	public String getQuestionHead() {
+		return questionHead;
+	}
+
+
+
+	public void setQuestionHead(String questionHead) {
+		this.questionHead = questionHead;
+	}
+
+
 
 	public String getQuestion() {
 		return question;
