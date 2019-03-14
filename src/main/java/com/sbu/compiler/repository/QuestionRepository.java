@@ -7,5 +7,5 @@ import com.sbu.compiler.domain.Question;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question,Long> {
-
+	Question findByQuestionId(int QuestionId);
 }
