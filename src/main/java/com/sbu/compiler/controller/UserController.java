@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sbu.compiler.domain.Lab;
-import com.sbu.compiler.domain.Student;
 import com.sbu.compiler.domain.User;
 import com.sbu.compiler.dto.ResponseDto;
 import com.sbu.compiler.dto.StudentDto;

@@ -7,13 +7,31 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.List;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.tomcat.util.json.JSONParser;
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.sbu.compiler.domain.Lab;
+import com.sbu.compiler.domain.Question;
+import com.sbu.compiler.domain.Solution;
+import com.sbu.compiler.domain.User;
+import com.sbu.compiler.dto.CodeResponseDTO;
+import com.sbu.compiler.dto.ResponseDto;
 import com.sbu.compiler.dto.SolutionDTO;
+import com.sbu.compiler.dto.TestCaseDTO;
 import com.sbu.compiler.repository.QuestionRepository;
+import com.sbu.compiler.repository.SolutionRepository;
 import com.sbu.compiler.service.SolutionService;
 
 @Service
@@ -21,8 +39,8 @@ public class SolutionServiceImpl implements SolutionService{
 	@Autowired
 	QuestionRepository questionRepository;
 	
-//	@Autowired
-//	Solution solution;
+	@Autowired
+	SolutionRepository solutionRepository;
 	
 	@Override
 	public String execute(SolutionDTO param) {
@@ -31,19 +49,45 @@ public class SolutionServiceImpl implements SolutionService{
 	}
 
 	@Override
-	public void save(SolutionDTO param) {
+	public ResponseDto save(SolutionDTO param) {
 		// TODO Auto-generated method stub
-//		User user = new User();
-//		user.setUserId(param.getUser_id());
-//		solution.setUser(user);
-//		Lab lab = new Lab();
-//		lab.setLabId(param.getLab_id());
-//		solution.setLab(lab);
-//		Question question = new Question();
-//		question.setQuestionId(param.getQuestion_id());
-//		solution.setQuestion(question);
-//		solution.setSolution_file(param.getScript());
-		
+		Solution solution = solutionRepository.findWithUserIdAndLabIdAndQuestionId(param.getUserId(),param.getLabId(),param.getQuestionId());
+		if(solution!=null)
+		{
+			solution.setSolution_file(param.getSolution_file());
+			if(param.getResult()!=null)
+			solution.setResult(param.getResult());
+			solutionRepository.save(solution);
+			ResponseDto response = new ResponseDto();
+			response.setResponseMessage("Saved Successfully");
+			System.out.println("saved");
+			return response;
+			
+		}
+		else
+		{
+			solution = new Solution();
+			User user = new User();
+			user.setUserId(param.getUserId());
+			solution.setUser(user);
+			Lab lab = new Lab();
+			lab.setLabId(param.getLabId());
+			solution.setLab(lab);
+			Question question = new Question();
+			question.setQuestionId(param.getQuestionId());
+			solution.setQuestion(question);
+			solution.setSolution_file(param.getSolution_file());
+			if(param.getResult()==null)
+				solution.setResult("0");
+			else
+				solution.setResult(param.getResult());	
+			solutionRepository.save(solution);
+			ResponseDto response = new ResponseDto();
+			response.setResponseMessage("Saved Successfully");
+			return response;
+			
+			
+		}
 	}
 	
 	public String run(SolutionDTO param)
@@ -92,6 +136,46 @@ public class SolutionServiceImpl implements SolutionService{
             e.printStackTrace();
         }
 		return result;
+	}
+
+	@Override
+	public SolutionDTO submit(SolutionDTO param) throws JsonParseException, JsonMappingException, IOException, ParseException {
+		// TODO Auto-generated method stub
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.setSerializationInclusion(Include.NON_NULL);
+		String tc = StringEscapeUtils.unescapeJava(questionRepository.findByQuestionId(param.getQuestionId()).getTestCase());
+		List<TestCaseDTO> testCases = mapper.readValue(tc, new TypeReference<List<TestCaseDTO>>(){});
+		int totalTestCasesCount = testCases.size();
+		int clearedTestCaseCount = 0;
+		for(TestCaseDTO testCase:testCases)
+		{
+			param.setInput(testCase.getInput());
+			CodeResponseDTO res = new ObjectMapper().readValue(run(param), CodeResponseDTO.class);
+			if(res.output.equals(testCase.getOutput()))
+			{
+				clearedTestCaseCount++;
+				System.out.println("count: \t"+clearedTestCaseCount);
+			}
+		}
+		double result=0;
+		System.out.println(totalTestCasesCount);
+		if(clearedTestCaseCount!=0)
+			result =  ((double)clearedTestCaseCount)/((double)totalTestCasesCount)*100;
+		DecimalFormat df = new DecimalFormat("###.#");
+		param.setResult(df.format(result));
+		SolutionDTO outputResult = new SolutionDTO();
+		outputResult.setResult(df.format(result));
+		if(save(param).getResponseMessage().equals("Saved Successfully"))
+		{
+			outputResult.setResponseMessage("Saved and Submitted Successfully.");
+		}
+		else
+		{
+			outputResult.setResponseMessage("Error occured while saving.");
+		}
+			
+		return outputResult;
 	}
 
 }

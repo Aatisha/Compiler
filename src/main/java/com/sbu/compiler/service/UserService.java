@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.sbu.compiler.domain.Lab;
-import com.sbu.compiler.domain.Student;
 import com.sbu.compiler.domain.User;
 import com.sbu.compiler.dto.ResponseDto;
 import com.sbu.compiler.dto.StudentDto;

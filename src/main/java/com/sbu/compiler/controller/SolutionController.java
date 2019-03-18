@@ -1,5 +1,8 @@
 package com.sbu.compiler.controller;
 
+import java.io.IOException;
+
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.sbu.compiler.dto.ResponseDto;
 import com.sbu.compiler.dto.SolutionDTO;
 import com.sbu.compiler.service.SolutionService;
 
@@ -24,9 +30,15 @@ public class SolutionController {
 	}
 
 	@RequestMapping(value="/save", method=RequestMethod.POST)
-	public void save(@RequestBody SolutionDTO param)
+	public ResponseDto save(@RequestBody SolutionDTO param)
 	{
-		solutionService.save(param);
+		return solutionService.save(param);
+		
+	}
+	@RequestMapping(value="/submit", method=RequestMethod.POST)
+	public SolutionDTO submit(@RequestBody SolutionDTO param) throws JsonParseException, JsonMappingException, IOException, ParseException
+	{
+		return solutionService.submit(param);
 		
 	}
 
